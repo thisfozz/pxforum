@@ -12,7 +12,7 @@ class Role extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $table = 'role';
+    protected $table = 'roles';
 
     protected $fillable = [
         'role_name',

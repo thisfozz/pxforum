@@ -6,8 +6,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
-    return view('layouts.app');  // Главная страница с шаблоном app.blade.php
-})->name('home');  // Имя маршрута для главной страницы
+    return view('layouts.app');
+})->name('home');
 
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -16,16 +16,16 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/forums', function() { 
-    return view('forums');  // Страница форума
-})->name('forums');  // Имя маршрута для форума
+    return view('forums');
+})->name('forums');
 
 Route::get('/popular', function() { 
-    return view('popular');  // Страница популярного контента
-})->name('popular');  // Имя маршрута для популярного контента
+    return view('popular');
+})->name('popular');
 
 Route::get('/topics', function() { 
-    return view('topics');  // Страница форума с всеми темами
-})->name('topics');  // Имя маршрута для всех тем
+    return view('topics');
+})->name('topics');
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
 

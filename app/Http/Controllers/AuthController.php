@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -16,8 +15,8 @@ class AuthController extends Controller
     }
     public function register(Request $request){
         $request->validate([
-            'username' => 'required|string|max:20|unique:user,login',
-            'email' => 'required|string|email|max:255|unique:user,email',
+            'username' => 'required|string|max:20|unique:users,login',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
         ]);
     
