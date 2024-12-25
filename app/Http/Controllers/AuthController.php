@@ -70,4 +70,10 @@ class AuthController extends Controller
                 ->cookie($cookieLogin)
                 ->cookie($cookieEmail);
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('home')->with('success', 'Logged out successfully.');
+    }
 }
