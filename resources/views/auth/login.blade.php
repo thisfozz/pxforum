@@ -1,5 +1,4 @@
 <x-guest-layout>
-    <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
@@ -36,8 +35,8 @@
 
             @if (Route::has('password.request'))
                 <div class="mt-3 text-center">
-                    <small class="text-white">
-                        <a href="{{ route('password.request') }}" class="underline text-sm text-white hover:text-gray-300">
+                    <small class="text-black">
+                        <a href="{{ route('password.request') }}" class="underline text-sm text-black hover:text-gray-300">
                             {{ __('Forgot your password?') }}
                         </a>
                     </small>
