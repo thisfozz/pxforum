@@ -7,13 +7,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('forums') ? 'active' : '' }}" href="{{ route('forums') }}">Forums</a>
+                    <a class="nav-link {{ request()->routeIs('forum.index') ? 'active' : '' }}" href="{{ route('forum.index') }}">Forum</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('popular') ? 'active' : '' }}" href="{{ route('popular') }}">Popular</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('topics') ? 'active' : '' }}" href="{{ route('topics') }}">All Topics</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
