@@ -6,8 +6,12 @@ use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 
 class LoginRequest extends FormRequest
 {
@@ -27,7 +31,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'login' => ['required', 'string', 'max:20'],
             'password' => ['required', 'string'],
         ];
     }
@@ -37,21 +41,28 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function authenticate(): RedirectResponse
     {
         $this->ensureIsNotRateLimited();
-
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+    
+        $user = User::where('login', $this->input('login'))->first();
+    
+        if ($user && Hash::check($this->input('password'), $user->password)) {
+            Auth::login($user);
+    
+            RateLimiter::clear($this->throttleKey());
+    
+            return redirect()->route('home');
         }
-
-        RateLimiter::clear($this->throttleKey());
+    
+        RateLimiter::hit($this->throttleKey());
+    
+        throw ValidationException::withMessages([
+            'login' => trans('auth.failed'),
+        ]);
     }
 
+    
     /**
      * Ensure the login request is not rate limited.
      *

@@ -3,9 +3,9 @@
         @csrf
 
         <div>
-            <x-input-label for="name" :value="__(key: 'Login')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name"/>
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-label for="login" :value="__(key: 'Login')" />
+            <x-text-input id="login" class="block mt-1 w-full" type="text" name="login" :value="old('login')" required autofocus autocomplete="login"/>
+            <x-input-error :messages="$errors->get('login')" class="mt-2" />
         </div>
 
         <div class="mt-4">
@@ -23,16 +23,6 @@
                             required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
         <div class="flex flex-col items-center mt-4">
