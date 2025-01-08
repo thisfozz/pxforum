@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model implements Authenticatable
+
+class User extends Model implements AuthenticatableContract, CanResetPassword
 {
-    use HasFactory;
+    use HasFactory, CanResetPasswordTrait, Notifiable;
 
     protected $table = 'users';
     protected $primaryKey = 'user_id';
@@ -19,7 +23,7 @@ class User extends Model implements Authenticatable
     protected $fillable = [
         'login',
         'email',
-        'password_hash',
+        'password',
         'role_id',
         'display_name',
     ];

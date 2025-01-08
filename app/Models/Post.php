@@ -2,6 +2,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use App\Models\Reply;
 
 class Post extends Model
 {
@@ -10,7 +12,6 @@ class Post extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     public $timestamps = true;
-
     protected $fillable = [
         'title',
         'content',
@@ -18,6 +19,17 @@ class Post extends Model
         'created_by',
         'topic_id',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($post) {
+            if (!$post->post_id) {
+                $post->post_id = (string) Str::uuid();
+            }
+        });
+    }
 
     public function user()
     {
@@ -29,10 +41,9 @@ class Post extends Model
         return $this->belongsTo(Topic::class, 'topic_id', 'topic_id');
     }
 
-    // Дополнительный метод для удобного использования статусов
     public function getStatusAttribute($value)
     {
-        return ucfirst($value); // Форматируем статус (например, 'open' в 'Open')
+        return ucfirst($value);
     }
 
     public function isOpen()
@@ -47,5 +58,19 @@ class Post extends Model
     public function lastPost()
     {
         return $this->posts()->latest()->first();
+    }
+    public function lastReply()
+    {
+        return $this->hasOne(Reply::class, 'post_id', 'post_id')->latest();
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class, 'post_id', 'post_id');
+    }
+
+    public function repliesCount()
+    {
+        return $this->replies()->count();
     }
 }

@@ -1,30 +1,75 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Login') }}
+        </h2>
+    </x-slot>
 
-@section('content')
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <form action="{{ route('login') }}" method="POST" class="p-4 border rounded shadow-sm bg-light" style="width: 300px;">
-        @csrf
-        <h3 class="mb-3 text-center">Login</h3>
-        <div class="mb-3">
-            <input type="text" class="form-control" name="identifier" placeholder="Username or Email" required>
-            @error('identifier')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                        @csrf
+
+                        <div>
+                            <label for="identifier" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Email or Login
+                            </label>
+                            <input type="text"
+                                   name="identifier"
+                                   id="identifier"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required
+                                   value="{{ old('identifier') }}"
+                                   autofocus>
+                            @error('identifier')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Password
+                            </label>
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required>
+                            @error('password')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                       name="remember"
+                                       id="remember"
+                                       class="rounded border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <label for="remember" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                                    Remember me
+                                </label>
+                            </div>
+
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}"
+                                   class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+                                    Forgot your password?
+                                </a>
+                            @endif
+                        </div>
+
+                        <div class="flex items-center justify-end">
+                            <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
+                                Log in
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-            @error('password')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-check mb-3">
-            <input type="checkbox" class="form-check-input" name="remember" id="rememberMe">
-            <label class="form-check-label" for="rememberMe">Remember Me</label>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-        <div class="mt-3 text-center">
-            <small>Don't have an account? <a href="{{ route('register') }}">Sign Up</a></small>
-        </div>
-    </form>
-</div>
-@endsection
+    </div>
+</x-app-layout>

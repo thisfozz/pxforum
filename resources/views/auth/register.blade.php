@@ -1,26 +1,101 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Register') }}
+        </h2>
+    </x-slot>
 
-@section('content')
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <form action="{{ route('register') }}" method="POST" class="p-4 border rounded shadow-sm bg-light" style="width: 300px;">
-        @csrf
-        <h3 class="mb-3 text-center">Sign Up</h3>
-        <div class="mb-3">
-            <input type="email" class="form-control" name="email" placeholder="Email" required>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <form method="POST" action="{{ route('register') }}" class="space-y-6">
+                        @csrf
+
+                        <div>
+                            <label for="login" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Login
+                            </label>
+                            <input type="text"
+                                   name="login"
+                                   id="login"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required
+                                   value="{{ old('login') }}"
+                                   autofocus>
+                            @error('login')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Email
+                            </label>
+                            <input type="email"
+                                   name="email"
+                                   id="email"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required
+                                   value="{{ old('email') }}">
+                            @error('email')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="display_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Display Name
+                            </label>
+                            <input type="text"
+                                   name="display_name"
+                                   id="display_name"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required
+                                   value="{{ old('display_name') }}">
+                            @error('display_name')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Password
+                            </label>
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required>
+                            @error('password')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Confirm Password
+                            </label>
+                            <input type="password"
+                                   name="password_confirmation"
+                                   id="password_confirmation"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required>
+                        </div>
+
+                        <div class="flex items-center justify-end">
+                            <a href="{{ route('login') }}"
+                               class="mr-4 text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+                                Already registered?
+                            </a>
+                            <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" name="username" placeholder="Username" required>
-        </div>
-        <div class="mb-3">
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-        </div>
-        <div class="mb-3">
-            <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password" required>
-        </div>
-        <button type="submit" class="btn btn-primary w-100" name="regbtn">Register</button>
-        <div class="mt-3 text-center">
-            <small>Already have an account? <a href="{{ route('login') }}">Sign in</a></small>
-        </div>
-    </form>
-</div>
-@endsection
+    </div>
+</x-app-layout>

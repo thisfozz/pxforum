@@ -15,7 +15,7 @@ class Topic extends Model
 
     protected $fillable = [
         'title',
-        'created_by',
+        'created_by'
     ];
 
     public static function boot()
@@ -35,5 +35,10 @@ class Topic extends Model
 
     public function posts(){
         return $this->hasMany(Post::class, 'topic_id', 'topic_id');
+    }
+
+    public function lastPost()
+    {
+        return $this->hasOne(Post::class, 'topic_id', 'topic_id')->latest('updated_at');
     }
 }

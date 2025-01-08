@@ -1,0 +1,23 @@
+.forum-table th {
+    background-color: #f3f4f6;
+    color: #374151;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.dark .forum-table th {
+    background-color: #374151;
+    color: #f9fafb;
+}
+
+.forum-table tr {
+    transition: background-color 0.2s ease;
+}
+
+.forum-table tr:hover {
+    background-color: #f9fafb;
+}
+
+.dark .forum-table tr:hover {
+    background-color: #4b5563;
+}
