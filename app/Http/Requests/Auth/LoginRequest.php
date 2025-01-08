@@ -6,7 +6,6 @@ use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
@@ -45,7 +44,7 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
     
-        $user = User::where('login', $this->input('login'))->first();
+        $user = User::where('login', $this->input('identifier'))->orWhere('email', $this->input('identifier'))->first();
     
         if ($user && Hash::check($this->input('password'), $user->password)) {
             Auth::login($user);

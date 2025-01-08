@@ -18,17 +18,17 @@ Route::prefix('forum')->name('forum.')->group(function() {
     // Сохранение нового топика
     Route::post('/', [TopicController::class, 'store'])->name('store');
 
-    // Просмотр топика (посты внутри топика)
+    // Просмотр топика со всеми постами
     Route::get('/topic/{topic}', [TopicController::class, 'show'])->name('topic');
 
-    // Просмотр поста с ответами
-    Route::get('/topic/{topic}/post/{post}', [PostController::class, 'showPost'])->name('post');
-
-    // Страница создания нового поста
+    // Создание нового поста
     Route::get('/topic/{topic}/post/create', [PostController::class, 'create'])->name('post.create');
+    Route::post('/topic/{topicId}/post', [PostController::class, 'store'])->name('post.store');
 
-    // Сохранение нового поста
-    Route::post('/topic/{topic}/post', [PostController::class, 'store'])->name('post.store');
+    // Просмотр конкретного поста с ответами
+    Route::get('/topic/{topic}/post/{post}', [PostController::class, 'show'])
+        ->name('post.show')
+        ->where(['post' => '[0-9a-f\-]+']);
 
     // Добавление ответа на пост
     Route::post('/topic/{topic}/post/{post}/reply', [ReplyController::class, 'store'])->name('reply.store');

@@ -10,7 +10,15 @@ class TopicController extends Controller
 {
     public function index()
     {
-        $topics = Topic::latest()->get();
+        $topics = Topic::latest()
+            ->with('user')
+            ->withCount('posts')
+            ->with(['posts' => function($query) {
+                $query->withCount('replies');
+            }])
+            ->with('lastPost')
+            ->get();
+
         return view('forum.index', compact('topics'));
     }
 
@@ -33,12 +41,16 @@ class TopicController extends Controller
         return redirect()->route('forum.index')->with('success','Topic created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Topic $topic)
+
+    public function show($topicId)
     {
-        $posts = $topic->posts()->latest()->get();
-        return view('topic.show', compact('posts', 'topic'));
+        $topic = Topic::with(['posts.user'])
+            ->withCount('posts')
+            ->with(['posts' => function($query) {
+                $query->withCount('replies');
+            }])
+            ->findOrFail($topicId);
+        
+        return view('topic.index', compact('topic'));
     }
 }

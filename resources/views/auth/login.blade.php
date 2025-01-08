@@ -1,47 +1,75 @@
-<x-guest-layout>
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Login') }}
+        </h2>
+    </x-slot>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                        @csrf
 
-        <div>
-            <x-input-label for="login" :value="__('Login')" />
-            <x-text-input id="login" class="block mt-1 w-full" type="text" name="login" :value="old('login')" required autofocus autocomplete="login" />
-            <x-input-error :messages="$errors->get('login')" class="mt-2" />
-        </div>
+                        <div>
+                            <label for="identifier" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Email or Login
+                            </label>
+                            <input type="text"
+                                   name="identifier"
+                                   id="identifier"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required
+                                   value="{{ old('identifier') }}"
+                                   autofocus>
+                            @error('identifier')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Password
+                            </label>
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                   required>
+                            @error('password')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                       name="remember"
+                                       id="remember"
+                                       class="rounded border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <label for="remember" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                                    Remember me
+                                </label>
+                            </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}"
+                                   class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+                                    Forgot your password?
+                                </a>
+                            @endif
+                        </div>
 
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex flex-col items-center mt-4">
-            <x-primary-button class="w-auto px-6 py-2">
-                {{ __('Log in') }}
-            </x-primary-button>
-
-            @if (Route::has('password.request'))
-                <div class="mt-3 text-center">
-                    <small class="text-black">
-                        <a href="{{ route('password.request') }}" class="underline text-sm text-black hover:text-gray-300">
-                            {{ __('Forgot your password?') }}
-                        </a>
-                    </small>
+                        <div class="flex items-center justify-end">
+                            <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
+                                Log in
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            @endif
+            </div>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+</x-app-layout>
