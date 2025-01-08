@@ -80,6 +80,14 @@
                                 <div class="text-sm text-gray-600 dark:text-gray-400">
                                     {{ $reply->user->role->role_name }}
                                 </div>
+                                @if($reply->user->userDetail)
+                                    <div class="text-sm text-gray-500 dark:text-gray-500 mt-2">
+                                        @if($reply->user->userDetail->first_name || $reply->user->userDetail->last_name)
+                                            {{ $reply->user->userDetail->first_name }} {{ $reply->user->userDetail->last_name }}<br>
+                                        @endif
+                                        Member since {{ $reply->user->created_at->format('M Y') }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
