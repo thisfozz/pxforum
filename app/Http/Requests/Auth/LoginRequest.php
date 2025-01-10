@@ -30,7 +30,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string', 'max:20'],
+            'identifier' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string'],
         ];
     }
@@ -44,20 +44,22 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
     
-        $user = User::where('login', $this->input('identifier'))->orWhere('email', $this->input('identifier'))->first();
+        $user = User::where('login', $this->input('identifier'))
+                    ->orWhere('email', $this->input('identifier'))
+                    ->first();
     
         if ($user && Hash::check($this->input('password'), $user->password)) {
             Auth::login($user);
     
             RateLimiter::clear($this->throttleKey());
     
-            return redirect()->route('home');
+            return redirect()->intended(route('forum.index'));
         }
     
         RateLimiter::hit($this->throttleKey());
     
         throw ValidationException::withMessages([
-            'login' => trans('auth.failed'),
+            'identifier' => trans('auth.failed'),
         ]);
     }
 
@@ -90,6 +92,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('identifier')).'|'.$this->ip());
     }
 }
