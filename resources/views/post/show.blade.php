@@ -29,7 +29,7 @@
                                 @endif
                             </div>
                             <div class="font-bold text-lg text-gray-900 dark:text-white">
-                                {{ $post->user->display_name ?? $post->user->login }}
+                                {{ $post->user->userDetail->display_name ?? $post->user->login }}
                             </div>
                             <div class="text-sm font-medium text-indigo-600 dark:text-indigo-400 mb-1">
                                 {{ $post->user->role->role_name }}
@@ -39,7 +39,8 @@
                                     @if($post->user->userDetail->first_name || $post->user->userDetail->last_name)
                                         {{ $post->user->userDetail->first_name }} {{ $post->user->userDetail->last_name }}<br>
                                     @endif
-                                    Member since {{ $post->user->created_at->format('M Y') }}
+                                    Дата регистрации<br>
+                                    {{ $post->user->created_at->format('d.m.Y') }}
                                 </div>
                             @endif
                         </div>
@@ -75,17 +76,18 @@
                                     @endif
                                 </div>
                                 <div class="font-bold text-gray-900 dark:text-white">
-                                    {{ $reply->user->display_name ?? $reply->user->login }}
+                                    {{ $reply->user->userDetail->display_name ?? $reply->user->login }}
                                 </div>
                                 <div class="text-sm text-gray-600 dark:text-gray-400">
                                     {{ $reply->user->role->role_name }}
                                 </div>
-                                @if($reply->user->userDetail)
+                                @if($post->user->userDetail)
                                     <div class="text-sm text-gray-500 dark:text-gray-500 mt-2">
-                                        @if($reply->user->userDetail->first_name || $reply->user->userDetail->last_name)
-                                            {{ $reply->user->userDetail->first_name }} {{ $reply->user->userDetail->last_name }}<br>
+                                        @if($post->user->userDetail->first_name || $post->user->userDetail->last_name)
+                                            {{ $post->user->userDetail->first_name }} {{ $post->user->userDetail->last_name }}<br>
                                         @endif
-                                        Member since {{ $reply->user->created_at->format('M Y') }}
+                                        Дата регистрации<br>
+                                        {{ $post->user->created_at->format('d.m.Y') }}
                                     </div>
                                 @endif
                             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,6 +35,7 @@ class RegisteredUserController extends Controller
             'login' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', Rules\Password::defaults()],
+            'display_name' => ['required', 'string', 'max:30', 'unique:user_details'],
         ]);
 
         $role = Role::where('role_name', 'User')->first();
@@ -49,10 +51,15 @@ class RegisteredUserController extends Controller
             'role_id' => $role->role_id
         ]);
 
+        UserDetail::create([
+            'user_id' => $user->user_id,
+            'display_name' => $request->display_name,
+        ]);
+
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('home', absolute: false));
+        return redirect(route('forum.index', absolute: false));
     }
 }

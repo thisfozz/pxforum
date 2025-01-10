@@ -25,7 +25,6 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         'email',
         'password',
         'role_id',
-        'display_name',
     ];
 
     public static function boot()
@@ -75,5 +74,10 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
      */
     public function getAuthPasswordName() {
         return 'password_hash'; 
+    }
+
+    public function userDetail()
+    {
+        return $this->hasOne(UserDetail::class, 'user_id', 'user_id');
     }
 }
