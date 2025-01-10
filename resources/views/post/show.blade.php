@@ -6,7 +6,7 @@
             </h2>
             <a href="{{ route('forum.topic', $post->topic_id) }}" 
                class="text-sm text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
-                ← Back to Topic
+                ← Назад к темам
             </a>
         </div>
     </x-slot>
@@ -32,6 +32,7 @@
                                 {{ $post->user->userDetail->display_name ?? $post->user->login }}
                             </div>
                             <div class="text-sm font-medium text-indigo-600 dark:text-indigo-400 mb-1">
+                                Роль
                                 {{ $post->user->role->role_name }}
                             </div>
                             @if($post->user->userDetail)
@@ -49,7 +50,7 @@
                     <div class="flex-1 p-6 bg-white dark:bg-gray-800">
                         <div class="flex justify-between items-start mb-4">
                             <div class="text-sm text-gray-600 dark:text-gray-400">
-                                Posted {{ $post->created_at->diffForHumans() }}
+                                Создано {{ $post->created_at->diffForHumans() }}
                             </div>
                         </div>
                         <div class="prose dark:prose-invert max-w-none">
@@ -79,15 +80,16 @@
                                     {{ $reply->user->userDetail->display_name ?? $reply->user->login }}
                                 </div>
                                 <div class="text-sm text-gray-600 dark:text-gray-400">
+                                    Роль
                                     {{ $reply->user->role->role_name }}
                                 </div>
-                                @if($post->user->userDetail)
+                                @if($reply->user->userDetail)
                                     <div class="text-sm text-gray-500 dark:text-gray-500 mt-2">
-                                        @if($post->user->userDetail->first_name || $post->user->userDetail->last_name)
-                                            {{ $post->user->userDetail->first_name }} {{ $post->user->userDetail->last_name }}<br>
+                                        @if($reply->user->userDetail->first_name || $post->user->userDetail->last_name)
+                                            {{ $reply->user->userDetail->first_name }} {{ $post->user->userDetail->last_name }}<br>
                                         @endif
                                         Дата регистрации<br>
-                                        {{ $post->user->created_at->format('d.m.Y') }}
+                                        {{ $reply->user->created_at->format('d.m.Y') }}
                                     </div>
                                 @endif
                             </div>
@@ -122,7 +124,7 @@
                 <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg overflow-hidden">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                            Post a Reply
+                            Ответить
                         </h3>
                         <form action="{{ route('forum.reply.store', [$post->topic_id, $post->post_id]) }}" method="POST">
                             @csrf
@@ -130,7 +132,7 @@
                                 <textarea name="content" 
                                           rows="4" 
                                           class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                          placeholder="Write your reply here..."
+                                          placeholder="Напишите ваш ответ здесь..."
                                           required></textarea>
                                 @error('content')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -139,7 +141,7 @@
                             <div class="flex justify-end">
                                 <button type="submit" 
                                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
-                                    Post Reply
+                                    Ответить
                                 </button>
                             </div>
                         </form>
@@ -149,8 +151,8 @@
                 <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg overflow-hidden">
                     <div class="p-6 text-center">
                         <p class="text-gray-600 dark:text-gray-400">
-                            Please <a href="{{ route('login') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">log in</a> 
-                            to post a reply.
+                            Пожалуйста <a href="{{ route('login') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">войдите</a> 
+                            чтобы ответить.
                         </p>
                     </div>
                 </div>

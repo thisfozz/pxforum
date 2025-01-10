@@ -9,7 +9,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Сначала проверяем существование ограничения
         $constraints = DB::select("
             SELECT constraint_name 
             FROM information_schema.table_constraints 
@@ -19,14 +18,12 @@ return new class extends Migration
         ");
 
         Schema::table('posts', function (Blueprint $table) use ($constraints) {
-            // Если ограничение существует, удаляем его
             if (!empty($constraints)) {
                 foreach ($constraints as $constraint) {
                     $table->dropForeign($constraint->constraint_name);
                 }
             }
             
-            // Создаем новое ограничение с ON DELETE SET NULL
             $table->foreign('created_by')
                   ->references('user_id')
                   ->on('users')
