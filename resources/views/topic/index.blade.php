@@ -17,7 +17,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
                             </svg>
-                            Create New Post
+                            Создать новый пост
                         </a>
                     </div>
 
@@ -25,10 +25,10 @@
                         <table class="w-full text-sm text-left">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">Post Title</th>
-                                    <th scope="col" class="px-6 py-3 hidden md:table-cell">Created By</th>
-                                    <th scope="col" class="px-6 py-3 hidden sm:table-cell">Replies</th>
-                                    <th scope="col" class="px-6 py-3">Last Activity</th>
+                                    <th scope="col" class="px-6 py-3">Заголовок поста</th>
+                                    <th scope="col" class="px-6 py-3 hidden md:table-cell">Автор</th>
+                                    <th scope="col" class="px-6 py-3 hidden sm:table-cell">Ответы</th>
+                                    <th scope="col" class="px-6 py-3">Последняя активность</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,7 +52,7 @@
                                 @empty
                                     <tr>
                                         <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                                            No posts in this topic yet. Be the first to start a discussion!
+                                            Постов в этой теме нет. Будьте первыми, кто начнет обсуждение!
                                         </td>
                                     </tr>
                                 @endforelse
