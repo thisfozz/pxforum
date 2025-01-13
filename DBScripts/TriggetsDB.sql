@@ -79,13 +79,18 @@ EXECUTE FUNCTION log_display_name_change();
 -- Логирование изменений аватарки в таблице user_details
 CREATE OR REPLACE FUNCTION log_avatar_change()
 RETURNS TRIGGER AS $$
+DECLARE 
+    user_login VARCHAR;
 BEGIN
-    -- Записываем в лог описание изменения
+    SELECT login INTO user_login 
+    FROM users 
+    WHERE user_id = NEW.user_id;
+
     INSERT INTO user_changes_logs(user_id, field_name, old_value, new_value, changed_at, changed_by)
     VALUES (
         NEW.user_id, 
         'avatar_url', 
-        CONCAT('Пользователь ', NEW.login, ' изменил аватарку с ', OLD.avatar_url, ' на ', NEW.avatar_url, ' в ', TO_CHAR(CURRENT_TIMESTAMP, 'DD-MM-YYYY HH24:MI:SS')),
+        CONCAT('Пользователь ', user_login, ' изменил аватарку с ', OLD.avatar_url, ' на ', NEW.avatar_url, ' в ', TO_CHAR(CURRENT_TIMESTAMP, 'DD-MM-YYYY HH24:MI:SS')),
         NEW.avatar_url, 
         CURRENT_TIMESTAMP, 
         NEW.user_id
@@ -94,7 +99,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Триггер для отслеживания изменений аватарки
 CREATE TRIGGER avatar_update_trigger
 AFTER UPDATE OF avatar_url ON user_details
 FOR EACH ROW
