@@ -15,7 +15,6 @@ return new class extends Migration
             $table->text('payload');
             $table->integer('last_activity')->index();
 
-            // Добавляем внешний ключ
             $table->foreign('user_id')
                   ->references('user_id')
                   ->on('users')

@@ -82,12 +82,10 @@ RETURNS TRIGGER AS $$
 DECLARE 
     user_login VARCHAR;
 BEGIN
-    -- Получаем login пользователя из таблицы users
     SELECT login INTO user_login 
     FROM users 
     WHERE user_id = NEW.user_id;
 
-    -- Записываем в лог описание изменения
     INSERT INTO user_changes_logs(user_id, field_name, old_value, new_value, changed_at, changed_by)
     VALUES (
         NEW.user_id, 

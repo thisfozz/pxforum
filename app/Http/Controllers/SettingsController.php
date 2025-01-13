@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
 
-
 class SettingsController extends Controller
 {
     public function updateAvatar(Request $request)

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Topic;
-use App\Models\User;
 use App\Models\UserDetail;
 
 class PostController extends Controller
