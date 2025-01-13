@@ -8,12 +8,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sessions', function (Blueprint $table) {
-            $table->uuid('id')->primary(); // Используем UUID для id
-            $table->foreignId('user_id')->nullable()->index();
+            $table->string('id')->primary();
+            $table->uuid('user_id')->nullable()->index();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
-            $table->longText('payload');
+            $table->text('payload');
             $table->integer('last_activity')->index();
+
+            // Добавляем внешний ключ
+            $table->foreign('user_id')
+                  ->references('user_id')
+                  ->on('users')
+                  ->onDelete('CASCADE');
         });
     }
 
