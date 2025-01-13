@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Str;
 class Reply extends Model
 {
     protected $table = 'replies';
@@ -17,6 +17,17 @@ class Reply extends Model
         'created_by'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($reply) {
+            if (!$reply->reply_id) {
+                $reply->reply_id = (string) Str::uuid();
+            }
+        });
+    }
+
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id', 'post_id');
@@ -25,9 +36,5 @@ class Reply extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by', 'user_id');
-    }
-    public function lastReply()
-    {
-        return $this->hasOne(Reply::class, 'post_id', 'post_id')->latest();
     }
 } 
