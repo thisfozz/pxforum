@@ -19,11 +19,11 @@
                         <div class="flex flex-col items-center text-center">
                             <div class="w-24 h-24 mb-3">
                                 @if($post->user->userDetail && $post->user->userDetail->avatar_url)
-                                    <img src="{{ $post->user->userDetail->avatar_url }}" 
+                                    <img src="{{ asset('storage/' . $post->user->userDetail->avatar_url) }}" 
                                          alt="Avatar" 
                                          class="rounded-full w-full h-full object-cover ring-4 ring-indigo-500 dark:ring-indigo-400">
                                 @else
-                                    <img src="https://www.gravatar.com/avatar/{{ md5(strtolower($post->user->email)) }}?d=mp&s=200" 
+                                    <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($post->user->email))) }}?d=mp&s=200"
                                          alt="Default Avatar"
                                          class="rounded-full w-full h-full object-cover ring-4 ring-indigo-500 dark:ring-indigo-400">
                                 @endif
@@ -32,7 +32,6 @@
                                 {{ $post->user->userDetail->display_name ?? $post->user->login }}
                             </div>
                             <div class="text-sm font-medium text-indigo-600 dark:text-indigo-400 mb-1">
-                                Роль
                                 {{ $post->user->role->role_name }}
                             </div>
                             @if($post->user->userDetail)
@@ -67,11 +66,11 @@
                             <div class="flex flex-col items-center text-center">
                                 <div class="w-16 h-16 mb-3">
                                     @if($reply->user->userDetail && $reply->user->userDetail->avatar_url)
-                                        <img src="{{ $reply->user->userDetail->avatar_url }}" 
+                                        <img src="{{ asset('storage/' . $reply->user->userDetail->avatar_url) }}" 
                                              alt="Avatar" 
                                              class="rounded-full w-full h-full object-cover">
                                     @else
-                                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower($reply->user->email)) }}?d=mp&s=200" 
+                                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($reply->user->email))) }}?d=mp&s=200"
                                              alt="Default Avatar"
                                              class="rounded-full w-full h-full object-cover">
                                     @endif
@@ -79,10 +78,15 @@
                                 <div class="font-bold text-gray-900 dark:text-white">
                                     {{ $reply->user->userDetail->display_name ?? $reply->user->login }}
                                 </div>
-                                <div class="text-sm text-gray-600 dark:text-gray-400">
-                                    Роль
-                                    {{ $reply->user->role->role_name }}
-                                </div>
+                                @if($reply->user->role->role_name == 'Администратор')
+                                    <div class="text-sm font-medium text-red-600 dark:text-red-400 mb-1">
+                                        {{ $reply->user->role->role_name }}
+                                    </div>
+                                @else
+                                    <div class="text-sm font-medium text-indigo-600 dark:text-indigo-400 mb-1">
+                                        {{ $reply->user->role->role_name }}
+                                    </div>
+                                @endif
                                 @if($reply->user->userDetail)
                                     <div class="text-sm text-gray-500 dark:text-gray-500 mt-2">
                                         @if($reply->user->userDetail->first_name || $post->user->userDetail->last_name)

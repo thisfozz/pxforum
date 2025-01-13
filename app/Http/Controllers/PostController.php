@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Topic;
+use App\Models\User;
+use App\Models\UserDetail;
+
 class PostController extends Controller
 {
     public function index()
     {
         $posts = Post::latest()->get();
+        $user = auth()->user();
+        $userDetails = UserDetail::find($user->user_id);
 
-        return view('post.index', compact('posts'));
+        return view('post.index', compact('posts', 'userDetails'));
     }
 
     public function create($topic)
