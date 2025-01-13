@@ -9,14 +9,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Сначала добавляем столбец
         Schema::table('posts', function (Blueprint $table) {
             if (!Schema::hasColumn('posts', 'created_by')) {
                 $table->uuid('created_by')->nullable();
             }
         });
 
-        // Проверяем существование внешнего ключа через прямой запрос
         $foreignKeyExists = DB::select("
             SELECT 1 
             FROM information_schema.table_constraints 
@@ -25,7 +23,6 @@ return new class extends Migration
             AND constraint_name LIKE '%created_by%'
         ");
 
-        // Создаем внешний ключ только если его нет
         if (empty($foreignKeyExists)) {
             Schema::table('posts', function (Blueprint $table) {
                 $table->foreign('created_by')
