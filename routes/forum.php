@@ -24,6 +24,5 @@ Route::prefix('forum')->name('forum.')->group(function() {
         ->name('post.show')
         ->where(['post' => '[0-9a-f\-]+']);
 
-    // Добавление ответа на пост
-    Route::post('/topic/{topic}/post/{post}/reply', [ReplyController::class, 'store'])->name('reply.store');
+    Route::post('/post/{post}/reply', [ReplyController::class, 'store'])->name('reply.store');
 });

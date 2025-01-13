@@ -126,10 +126,27 @@
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                             Ответить
                         </h3>
-                        <form action="{{ route('forum.reply.store', [$post->topic_id, $post->post_id]) }}" method="POST">
+                        <form action="{{ route('forum.reply.store', [$post->post_id]) }}" 
+                            method="POST"
+                            x-data="{
+                                content: '',
+                                submitForm() {
+                                    axios.post('{{ route('forum.reply.store', [$post->post_id]) }}', {
+                                        content: this.content
+                                    })
+                                        .then(response => {
+                                            location.reload();
+                                        })
+                                        .catch(error => {
+                                            console.log(error.response.data.message);
+                                        });
+                                        }
+                                    }"
+                            x-on:submit.prevent="submitForm">
                             @csrf
                             <div class="mb-4">
-                                <textarea name="content" 
+                                <textarea name="content"
+                                          x-model="content"  
                                           rows="4" 
                                           class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                           placeholder="Напишите ваш ответ здесь..."
